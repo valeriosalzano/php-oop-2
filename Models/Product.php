@@ -1,6 +1,6 @@
 <?php
 
-require_once "Category.php";
+require_once __DIR__."/Category.php";
 
 class Product {
   public $title;

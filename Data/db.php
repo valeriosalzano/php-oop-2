@@ -23,9 +23,9 @@ $products = [
   new ProductHouse('cuscino per gatti S',[$categories['cat']],25,'','30cm x 30cm'),
   new ProductHouse('cuscino per gatti M',[$categories['cat']],45,'','45cm x 45cm'),
   new ProductHouse('cuscino per gatti L',[$categories['cat']],70,'','60cm x 60cm'),
-  new ProductToy('palla per cani/gatti',[$categories['cat'],$categories['dog']],20,'','ball'),
-  new ProductToy('osso di gomma',[$categories['dog']],15,'','bone'),
-  new ProductToy('topo di gomma',[$categories['cat']],10,'','mouse'),
+  new ProductToy('palla per cani/gatti',[$categories['cat'],$categories['dog']],20,'','palla'),
+  new ProductToy('osso di gomma',[$categories['dog']],15,'','osso'),
+  new ProductToy('topo di gomma',[$categories['cat']],10,'','topo'),
 ];
 
 

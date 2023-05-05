@@ -20,8 +20,8 @@ require_once __DIR__ . "/Data/db.php"
     <h1 class="display-1 fw-semibold text-uppercase">php-oop-2</h1>
   </header>
 
-  <main>
-    <div class="row row-cols-1 row-cols-md-3 row-cols-lg-5 g-4">
+  <main class="container">
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 row-cols-xxl-5 g-4">
       <?php
       foreach ($products as $product) { ?>
 

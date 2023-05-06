@@ -4,6 +4,7 @@ require_once __DIR__."/Product.php";
 
 class ProductHouse extends Product {
   public $size;
+  public $icon = 'fa-solid fa-house';
 
   public function __construct($_title,$_categories,$_price,$_img_path,$_size)
   {

@@ -5,7 +5,7 @@ require_once __DIR__."/Category.php";
 class Product {
   public $title;
   public $categories;
-  public $price;
+  private $price;
   public $img_path;
 
   public function __construct(string $_title, array $_categories, float $_price, string $_img_path = '')
@@ -22,5 +22,9 @@ class Product {
 
     $this->price = $_price;
     $this->img_path = $_img_path;
+  }
+
+  public function getPrice(){
+    return $this->price;
   }
 }

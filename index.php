@@ -21,29 +21,43 @@ require_once __DIR__ . "/Data/db.php"
   </header>
 
   <main class="container">
+    <!-- user bar -->
+    <div>
+
+    </div>
+
+    <!-- products cards -->
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 row-cols-xxl-5 g-4">
       <?php
       foreach ($products as $product) { ?>
 
         <div class="col">
           <div class="card h-100 p-1 p-md-2 p-lg-3 text-bg-dark position-relative">
+            <!-- icons -->
             <span class="position-absolute top-0 end-0 p-2 fs-5">
               <?php foreach ($product->categories as $category){ ?>
                 <i class="<?php echo $category->icon ?> text-bg-dark rounded-circle border p-2"></i>
               <?php } ?>
             </span>
+            <span class="position-absolute top-0 start-0 p-2 fs-5">
+              <i class="<?php echo $product->icon ?> text-bg-dark rounded-circle border p-2 "></i>
+            </span>
 
+            <!-- product image_path check -->
             <?php if($product->img_path != ''){ ?>
             <img src="<?php echo $product->img_path ?>" class="card-img-to" alt="<?php echo "immagine $product->title " ?>">
             <?php } else { ?>
             <img src="https://picsum.photos/500/400" class="card-img-to" alt="<?php echo "immagine $product->title " ?>">
             <?php } ?>
+
+            <!-- card infos -->
             <div class="card-body">
               <h5 class="card-title fw-semibold fs-3 my-3"><?php echo $product->title ?></h5>
               <ul class="list-group list-group-flush">
                 <li class="list-group-item text-bg-dark">
-                  <strong>Prezzo</strong>: &euro; <?php echo $product->price ?>
+                  <strong>Prezzo</strong>: &euro; <?php echo $product->getPrice() ?>
                 </li>
+                <!-- list will be different for every Product subclass -->
                 <?php if($product instanceof ProductToy){ ?>
                 <li class="list-group-item text-bg-dark">
                   <strong>Tipologia</strong>: <?php echo $product->type ?>

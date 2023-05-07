@@ -1,5 +1,16 @@
 <?php
-require_once __DIR__ . "/Data/db.php"
+
+require_once __DIR__ . "/Data/db.php";
+
+session_start();
+
+if (!isset($_SESSION['user'])) {
+  $_SESSION['user'] = 'guest';
+  $user = new User;
+} else {
+  $user = new UserSubscribed($_SESSION['user']);
+}
+$discount = $user->getDiscount();
 
 ?>
 
@@ -22,10 +33,21 @@ require_once __DIR__ . "/Data/db.php"
 
   <main class="container">
     <!-- user bar -->
-    <div>
+    <div class="row py-3 justify-content-between mb-3">
 
+      <div class="col-auto">
+        <?php if ($_SESSION['user'] == 'guest') { ?>
+          <div class="input-group w-auto">
+            <a href="subscribe.php"><button class="btn btn-outline-secondary" type="button" id="button-addon1">Registrati</button></a>
+          </div>
+          <div class="form-text text-light">Iscriviti per uno sconto del 20% sugli acquisti.</div>
+        <?php } else { ?>
+          <div class="form-text text-light">Per te uno sconto del 20% sui nostri prodotti.</div>
+        <?php } ?>
+      </div>
+
+      <button class="btn btn-outline-secondary col-3 mb-3" type="button"> Vai al pagamento <i class="fa-solid fa-cart-shopping"></i></button>
     </div>
-
     <!-- products cards -->
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 row-cols-xxl-5 g-4">
       <?php
@@ -35,7 +57,7 @@ require_once __DIR__ . "/Data/db.php"
           <div class="card h-100 p-1 p-md-2 p-lg-3 text-bg-dark position-relative">
             <!-- icons -->
             <span class="position-absolute top-0 end-0 p-2 fs-5">
-              <?php foreach ($product->categories as $category){ ?>
+              <?php foreach ($product->categories as $category) { ?>
                 <i class="<?php echo $category->icon ?> text-bg-dark rounded-circle border p-2"></i>
               <?php } ?>
             </span>
@@ -44,34 +66,40 @@ require_once __DIR__ . "/Data/db.php"
             </span>
 
             <!-- product image_path check -->
-            <?php if($product->img_path != ''){ ?>
-            <img src="<?php echo $product->img_path ?>" class="card-img-to" alt="<?php echo "immagine $product->title " ?>">
+            <?php if ($product->img_path != '') { ?>
+              <img src="<?php echo $product->img_path ?>" class="card-img-to" alt="<?php echo "immagine $product->title " ?>">
             <?php } else { ?>
-            <img src="https://picsum.photos/500/400" class="card-img-to" alt="<?php echo "immagine $product->title " ?>">
+              <img src="https://picsum.photos/500/400" class="card-img-to" alt="<?php echo "immagine $product->title " ?>">
             <?php } ?>
 
             <!-- card infos -->
-            <div class="card-body">
+            <div class="card-body pb-5">
               <h5 class="card-title fw-semibold fs-3 my-3"><?php echo $product->title ?></h5>
               <ul class="list-group list-group-flush">
                 <li class="list-group-item text-bg-dark">
-                  <strong>Prezzo</strong>: &euro; <?php echo $product->getPrice() ?>
+                  <strong>Prezzo</strong>: &euro;
+                  <?php if ($user instanceof UserSubscribed) {
+                    echo " <span class='text-decoration-line-through me-2'> " . $product->getPrice() . " </span> <span>" . $product->getPrice() * (1 - $discount / 100) . "</span>";
+                  } else {
+                    echo $product->getPrice();
+                  } ?>
                 </li>
                 <!-- list will be different for every Product subclass -->
-                <?php if($product instanceof ProductToy){ ?>
-                <li class="list-group-item text-bg-dark">
-                  <strong>Tipologia</strong>: <?php echo $product->type ?>
-                </li>
-                <?php } else if($product instanceof ProductFood){ ?>
-                <li class="list-group-item text-bg-dark">
-                  <strong>Peso</strong>: <?php echo $product->weight ?> kg
-                </li>
-                <?php } else if($product instanceof ProductHouse){ ?>
-                <li class="list-group-item text-bg-dark">
-                  <strong>Dimensioni</strong>: <?php echo $product->size ?>
-                </li>
+                <?php if ($product instanceof ProductToy) { ?>
+                  <li class="list-group-item text-bg-dark">
+                    <strong>Tipologia</strong>: <?php echo $product->type ?>
+                  </li>
+                <?php } else if ($product instanceof ProductFood) { ?>
+                  <li class="list-group-item text-bg-dark">
+                    <strong>Peso</strong>: <?php echo $product->weight ?> kg
+                  </li>
+                <?php } else if ($product instanceof ProductHouse) { ?>
+                  <li class="list-group-item text-bg-dark">
+                    <strong>Dimensioni</strong>: <?php echo $product->size ?>
+                  </li>
                 <?php } ?>
               </ul>
+              <button type="button" class="btn btn-secondary position-absolute bottom-0 start-50 translate-middle-x mb-2">Aggiungi <i class="fa-solid fa-cart-shopping"></i></button>
             </div>
           </div>
         </div>

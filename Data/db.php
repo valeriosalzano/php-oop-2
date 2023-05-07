@@ -3,6 +3,7 @@
 require_once __DIR__."/../Models/ProductFood.php";
 require_once __DIR__."/../Models/ProductToy.php";
 require_once __DIR__."/../Models/ProductHouse.php";
+require_once __DIR__."/../Models/UserSubscribed.php";
 
 $categories = [
   'cat' => new Category('cat',"fa-solid fa-cat"),
@@ -27,5 +28,3 @@ $products = [
   new ProductToy('osso di gomma',[$categories['dog']],15,'','osso'),
   new ProductToy('topo di gomma',[$categories['cat']],10,'','topo'),
 ];
-
-

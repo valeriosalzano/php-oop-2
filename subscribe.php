@@ -2,10 +2,10 @@
 
 include_once "Models/UserSubscribed.php";
 
-$user = new UserSubscribed('someMail');
+$mail = 'somemail';
 
 session_start();
 
-$_SESSION['user'] = $user;
+$_SESSION['user'] = $mail;
 
 header('Location: index.php');

@@ -11,6 +11,8 @@ $categories = [
 ];
 
 $products = [
+  new Product('prodotto generico',[$categories['cat']],5.5,''),
+  new Product('altro prodotto generico',[$categories['dog']],7.5,''),
   new ProductFood('scatoletta per cani/gatti',[$categories['cat'],$categories['dog']],5,'',0.25),
   new ProductFood('croccantini per cani S',[$categories['dog']],5,'',2),
   new ProductFood('croccantini per cani M',[$categories['dog']],12,'',5),

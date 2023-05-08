@@ -1,16 +1,15 @@
 <?php
 
 require_once __DIR__ . "/Data/db.php";
+require_once __DIR__ . "/Models/UserSubscribed.php";
 
 session_start();
 
 if (!isset($_SESSION['user'])) {
-  $_SESSION['user'] = 'guest';
   $user = new User;
 } else {
   $user = new UserSubscribed($_SESSION['user']);
 }
-$discount = $user->getDiscount();
 
 ?>
 
@@ -36,7 +35,7 @@ $discount = $user->getDiscount();
     <div class="row py-3 justify-content-between mb-3">
 
       <div class="col-auto">
-        <?php if ($_SESSION['user'] == 'guest') { ?>
+        <?php if ($user instanceof User) { ?>
           <div class="input-group w-auto">
             <a href="subscribe.php"><button class="btn btn-outline-secondary" type="button" id="button-addon1">Registrati</button></a>
           </div>
@@ -61,9 +60,11 @@ $discount = $user->getDiscount();
                 <i class="<?php echo $category->icon ?> text-bg-dark rounded-circle border p-2"></i>
               <?php } ?>
             </span>
-            <span class="position-absolute top-0 start-0 p-2 fs-5">
-              <i class="<?php echo $product->icon ?> text-bg-dark rounded-circle border p-2 "></i>
-            </span>
+            <?php if (is_subclass_of($product,'Product')) { ?>
+              <span class="position-absolute top-0 start-0 p-2 fs-5">
+                <i class="<?php echo $product->icon ?> text-bg-dark rounded-circle border p-2 "></i>
+              </span>
+            <?php } ?>
 
             <!-- product image_path check -->
             <?php if ($product->img_path != '') { ?>
@@ -77,12 +78,14 @@ $discount = $user->getDiscount();
               <h5 class="card-title fw-semibold fs-3 my-3"><?php echo $product->title ?></h5>
               <ul class="list-group list-group-flush">
                 <li class="list-group-item text-bg-dark">
-                  <strong>Prezzo</strong>: &euro;
-                  <?php if ($user instanceof UserSubscribed) {
-                    echo " <span class='text-decoration-line-through me-2'> " . $product->getPrice() . " </span> <span>" . $product->getPrice() * (1 - $discount / 100) . "</span>";
+                  <strong>Prezzo</strong>:
+                  <?php if ($user instanceof UserSubscribed) { ?>
+                    <small class='text-decoration-line-through me-1'> <?php echo $product->getPrice() ?></small>
+                  <?php echo $product->getPrice() * (1 - $user->getDiscount() / 100);
                   } else {
                     echo $product->getPrice();
                   } ?>
+                  &euro;
                 </li>
                 <!-- list will be different for every Product subclass -->
                 <?php if ($product instanceof ProductToy) { ?>

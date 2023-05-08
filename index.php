@@ -60,14 +60,14 @@ if (!isset($_SESSION['user'])) {
                 <i class="<?php echo $category->icon ?> text-bg-dark rounded-circle border p-2"></i>
               <?php } ?>
             </span>
-            <?php if (is_subclass_of($product,'Product')) { ?>
+            <?php if (is_subclass_of($product, 'Product')) { ?>
               <span class="position-absolute top-0 start-0 p-2 fs-5">
                 <i class="<?php echo $product->icon ?> text-bg-dark rounded-circle border p-2 "></i>
               </span>
             <?php } ?>
 
             <!-- product image_path check -->
-            <?php if ($product->img_path != '') { ?>
+            <?php if (isset($product->img_path)) { ?>
               <img src="<?php echo $product->img_path ?>" class="card-img-to" alt="<?php echo "immagine $product->title " ?>">
             <?php } else { ?>
               <img src="https://picsum.photos/500/400" class="card-img-to" alt="<?php echo "immagine $product->title " ?>">
@@ -87,6 +87,11 @@ if (!isset($_SESSION['user'])) {
                   } ?>
                   &euro;
                 </li>
+                <?php if(null !== ($product->getSize())) { ?>
+                  <li class="list-group-item text-bg-dark">
+                    <strong>Taglia articolo</strong> : <?php echo $product->getSize(); ?>
+                  </li>
+                <?php } ?>
                 <!-- list will be different for every Product subclass -->
                 <?php if ($product instanceof ProductToy) { ?>
                   <li class="list-group-item text-bg-dark">
@@ -94,11 +99,11 @@ if (!isset($_SESSION['user'])) {
                   </li>
                 <?php } else if ($product instanceof ProductFood) { ?>
                   <li class="list-group-item text-bg-dark">
-                    <strong>Peso</strong>: <?php echo $product->weight ?> kg
+                    <strong>Peso</strong>: <?php echo $product->getWeight() ?> kg
                   </li>
                 <?php } else if ($product instanceof ProductHouse) { ?>
                   <li class="list-group-item text-bg-dark">
-                    <strong>Dimensioni</strong>: <?php echo $product->size ?>
+                    <strong>Dimensioni</strong>: <?php echo $product->measures ?>
                   </li>
                 <?php } ?>
               </ul>

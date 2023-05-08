@@ -3,12 +3,13 @@
 require_once __DIR__."/Product.php";
 
 class ProductHouse extends Product {
-  public $size;
+  public $measures;
   public $icon = 'fa-solid fa-house';
 
-  public function __construct($_title,$_categories,$_price,$_img_path,$_size)
+  public function __construct(string $_title, array $_categories, float $_price, float $_weight, string $_size, string $_measures)
   {
-    parent::__construct($_title,$_categories,$_price,$_img_path);
-    $this->size = $_size;
+    parent::__construct($_title,$_categories,$_price,$_weight);
+    $this->setSize($_size);
+    $this->measures = $_measures;
   }
 }

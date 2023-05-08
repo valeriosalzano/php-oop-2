@@ -1,14 +1,20 @@
 <?php
 
 require_once __DIR__."/Category.php";
+require_once __DIR__."/../Traits/Weightable.php";
+include_once __DIR__."/../Traits/Sizeable.php";
 
 class Product {
+
+  use Weightable;
+  use Sizeable;
+
   public $title;
   public $categories;
   private $price;
   public $img_path;
 
-  public function __construct(string $_title, array $_categories, float $_price, string $_img_path = '')
+  public function __construct(string $_title, array $_categories, float $_price, float $_weight)
   {
     $this->title = $_title;
 
@@ -21,7 +27,7 @@ class Product {
     $this->categories = $_categories;
 
     $this->price = $_price;
-    $this->img_path = $_img_path;
+    $this->setWeight($_weight);
   }
 
   public function getPrice(){

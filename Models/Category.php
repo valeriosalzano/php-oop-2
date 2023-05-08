@@ -1,12 +1,17 @@
 <?php
 
+include_once __DIR__."/../Traits/Sizeable.php";
+
 class Category {
-  public $specie;
+
+  use Sizeable;
+
+  public $name;
   public $icon;
 
-  public function __construct(string $_specie, string $_icon)
+  public function __construct(string $_name, string $_icon)
   {
-    $this->specie = $_specie;
+    $this->name = $_name;
     $this->icon = $_icon;
   }
 }

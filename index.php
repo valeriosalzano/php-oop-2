@@ -35,7 +35,7 @@ if (!isset($_SESSION['user'])) {
     <div class="row py-3 justify-content-between mb-3">
 
       <div class="col-auto">
-        <?php if ($user instanceof User) { ?>
+        <?php if (get_class($user) == 'User') { ?>
           <div class="input-group w-auto">
             <a href="subscribe.php"><button class="btn btn-outline-secondary" type="button" id="button-addon1">Registrati</button></a>
           </div>

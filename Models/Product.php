@@ -20,8 +20,7 @@ class Product {
 
     foreach ($_categories as $category) {
       if(!$category instanceof Category){
-        echo 'categories must be instances of Category!';
-        die();
+        throw new Exception('Categories must be instances of Category!');
       }
     }
     $this->categories = $_categories;
